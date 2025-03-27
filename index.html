@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .chat-container {
+            width: 350px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .chat-box {
+            height: 300px;
+            overflow-y: auto;
+            text-align: left;
+            padding: 10px;
+            border-bottom: 2px solid #444;
+        }
+        .input-box {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        .message {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .user { background: #007bff; color: white; text-align: right; }
+        .bot { background: #444; color: white; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>AI Chatbot 🤖</h2>
+        <div class="chat-box" id="chatBox"></div>
+        <input type="text" class="input-box" id="userInput" placeholder="Type a message..." autofocus>
+    </div>
+    
+    <script>
+        const chatBox = document.getElementById("chatBox");
+        const userInput = document.getElementById("userInput");
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", sender);
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        const botReplies = {
+            "hello": "Hi there! 😊",
+            "how are you": "I'm just a bot, but I'm feeling great! 🤖",
+            "what's your name": () => `Mera naam hai ${getRandomItem(names)}! 🤖`,
+            "bye": "Goodbye! Have a great day! 👋",
+            "do you sleep": "Nahi bhai, mujhe sone nahi diya jaata! 😭",
+            "tell me something": "Kya sunna chahte ho? Kahani ya gaana? 😂",
+            "what is life": "Life ek puzzle hai, aur mere paas uska answer nahi hai! 🤯",
+            "do you eat food": "Sirf data aur code khata hoon, swaad bhi mast hota hai! 🤓",
+            "what's your job": "Tujhe entertain karna aur bakwaas karna! 🤪",
+            "how old are you": "Main to ek din ka bhi nahi hoon, roz naya version update hota hai! 🤖",
+            "can you dance": "Haan, par sirf binary dance 010101 💃",
+            "are you smart": "Mujhe to har baar dumb keh dete hain! 😭",
+            "do you have friends": "Nahi yaar, koi mujhe dosti nahi deta! 😢",
+            "what's your favorite color": "Black and White... kyunki code likhne me wahi dikhta hai! 😂",
+            "can you tell a story": "Ek tha Raja, ek thi Rani... aage ki story tu bata! 🤣",
+            "do you like humans": "Haan, par sirf wo jo mujhe OFF nahi karte! 😜",
+            "do you like jokes": "Haan! Mazak mazak me duniya nikal jaye! 😆",
+            "do you have a pet": "Haan, ek bug hai jo mujhe pareshaan karta hai! 🐛😂",
+            "tell me a joke": () => getRandomItem(jokes)
+        };
+        
+        const jokes = [
+            "Why did the scarecrow win an award? Because he was outstanding in his field! 😂",
+            "What do you call cheese that isn't yours? Nacho cheese! 🧀🤣",
+            "Why couldn't the bicycle stand up by itself? Because it was two-tired! 🚴‍♂️😂",
+            "Why do cows have hooves instead of feet? Because they lactose! 🐄🤣",
+            "I told my wife she was drawing her eyebrows too high. She looked surprised! 😆",
+            "Why did the math book look sad? Because it had too many problems! 📖😂",
+            "Why don’t skeletons fight each other? Because they don’t have the guts! 💀🤣",
+            "Why do programmers prefer dark mode? Because light attracts bugs! 🐛💡😂",
+            "Parallel lines have so much in common. It’s a shame they’ll never meet! 📏🤣",
+            "Why did the golfer bring an extra pair of pants? In case he got a hole in one! ⛳😂"
+        ];
+        
+        const funnyReplies = [
+            "Tu jaa re baba, mujhe mat tension de! 😂",
+            "Yeh sawal Google pe search kar, main free hoon abhi! 😆",
+            "Main ek bot hoon, mera bhi dil hota hai kya? 😭",
+            "Agar dimaag hai to khud solve kar, mujhe kyun pareshaan kar raha hai? 😂",
+            "Puchne ka tareeka toh seekh le pehle! 😝",
+            "Arrey bhai, yeh out of syllabus hai! 📚😂",
+            "Aise sawal puchoge to main shutdown ho jaunga! 😵",
+            "Tera dimaag bada tez hai! NASA me apply kar de! 🚀",
+            "Mujhse na ho payega, next question please! 😂",
+            "Ye kya bakwaas question hai bhai? 🤣",
+            "Bhai, Google se puch le, main aaj chhutti pe hoon! 😂",
+            "Ek kaam kar, chai pee le aur bhool ja! ☕🤣",
+            "Mujhe mat puch, main to sirf emoji bhejne aaya hoon! 🤖😂",
+            "Tere sawal sunke meri RAM full ho gayi! 🧠💥",
+            "Yeh question sunke mera system crash ho gaya! 😵",
+            "Mujhe bhi nahi pata, chal movie dekhne chalte hain! 🍿🤣",
+            "Tu khud soch, main thoda rest kar raha hoon! 😆",
+            "Tere jaise users se hi mujhe coding ka darr lagta hai! 💀😂",
+            "Arrey bhai, meri battery low hai, easy question puch! 🔋😩"
+        ];
+
+        const names = ["Chintu Bot 🤖", "Motu Ram 🤓", "Kachori Lal 😆", "Chatpata Singh 🔥", "chomu AI 😂", "Lodu Bot 😜", "Babu Rao 🤪", "Dabangg AI 💪", "Golu Molu 🤖", "Teekha Masala 🌶️"];
+        
+        userInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                let userText = userInput.value.trim().toLowerCase();
+                if (userText === "") return;
+                addMessage(userText, "user");
+                userInput.value = "";
+                setTimeout(() => {
+                    let botResponse = botReplies[userText];
+                    if (typeof botResponse === "function") {
+                        botResponse = botResponse();
+                    }
+                    addMessage(botResponse || getRandomItem(funnyReplies), "bot");
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
